@@ -14,7 +14,7 @@ public class Course {
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
   private String name;
-  @ManyToMany
+  @ManyToMany(mappedBy = "courses")
   private Collection<Section> sections;
 
   public Course(String name) {
