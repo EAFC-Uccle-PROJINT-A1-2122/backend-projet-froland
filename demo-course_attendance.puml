@@ -58,7 +58,7 @@ class Person {
 class Course {
   name
 }
-class Class {
+class CourseClass {
   identifier
   capacity
 }
@@ -81,11 +81,11 @@ class Role {
 }
 
 Section "1..*" o-- "1..*" Course
-Course "1" <- "0..*" Class : instantiates <
-AcademicYear "1" *-- "1..*" Class
-Class "0..*" --> "teacher\n1..*" Person
-Class "0..*" --> "students\n0..*" Person
-Class "1" *- "0..*" Session
+Course "1" <- "0..*" CourseClass : instantiates <
+AcademicYear "1" *-- "1..*" CourseClass
+CourseClass "0..*" --> "teacher\n1..*" Person
+CourseClass "0..*" --> "students\n0..*" Person
+CourseClass "1" *- "0..*" Session
 Role "0..*" <- "0..*" Person : is granted <
 Person "1" <- "0..*" Presence : concerns <
 Session "1" -- "0..*" Presence : concerns <

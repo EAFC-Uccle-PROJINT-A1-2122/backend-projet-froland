@@ -14,7 +14,9 @@
 	"vscjava.vscode-java-pack",
 	"EditorConfig.EditorConfig",
 	"redhat.vscode-xml",
-	"jebbs.plantuml"
+	"jebbs.plantuml",
+	"mtxr.sqltools",
+	"mtxr.sqltools-driver-pg"
 ],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // This can be used to network with other containers or with the host.
