@@ -1,6 +1,5 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
-import java.util.ArrayList;
 import java.util.Collection;
 
 import javax.persistence.Entity;
@@ -10,19 +9,20 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 
 @Entity
-public class Section {
+public class Course {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
   private String name;
   @ManyToMany
-  private Collection<Course> courses = new ArrayList<>();
+  private Collection<Section> sections;
 
-  public Section(String name) {
+  public Course(String name) {
     this.name = name;
   }
 
-  protected Section() {}
+  protected Course() {
+  }
 
   public Long getId() {
     return id;
@@ -40,11 +40,12 @@ public class Section {
     this.name = name;
   }
 
-  public Collection<Course> getCourses() {
-    return courses;
+  public Collection<Section> getSections() {
+      return sections;
   }
 
-  public void addCourse(Course course) {
-    courses.add(course);
+  public void addSection(Section section) {
+    sections.add(section);
   }
+
 }
