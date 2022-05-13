@@ -3,7 +3,6 @@ package be.eafcuccle.projint.backendfroland.persistence;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-import java.time.Year;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
