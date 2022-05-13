@@ -11,10 +11,11 @@
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [
-    "vscjava.vscode-java-pack",
-    "EditorConfig.EditorConfig",
-    "redhat.vscode-xml"
-  ],
+	"vscjava.vscode-java-pack",
+	"EditorConfig.EditorConfig",
+	"redhat.vscode-xml",
+	"jebbs.plantuml"
+],
   // Use 'forwardPorts' to make a list of ports inside the container available locally.
   // This can be used to network with other containers or with the host.
   "forwardPorts": [
