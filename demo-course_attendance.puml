@@ -58,12 +58,13 @@ class CourseClass {
 Section "1..*" o--> "1..*" Course
 Course "1" <- "0..*" CourseClass : instantiates <
 AcademicYear "1" <-- "1..*" CourseClass
-CourseClass "0..*" -> "teacher\n1..*" Person
-CourseClass "0..*" -> "students\n0..*" Person
+CourseClass "0..*" -> "1..*\nteachers" Person
+CourseClass "0..*" -> "0..*\nstudents" Person
 CourseClass "1" *--> "0..*" Session
 Role "0..*" <-- "0..*" Person : is granted <
 Role "0..*" o-> "0..*" Permission
-Person "student\n1" <- "0..*" Attendance : concerns <
-Session "session\n1" <- "0..*" Attendance
+Person "1" --> "0..*\nattendances" Attendance
+Session "1\nsession" <- "0..*" Attendance
 Attendance "0..*" -> "1\nstatus" AttendanceStatus
 @enduml
+
