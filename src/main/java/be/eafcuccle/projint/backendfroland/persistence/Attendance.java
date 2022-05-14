@@ -10,6 +10,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 
+import org.springframework.core.style.ToStringCreator;
+
 @Entity
 public class Attendance {
   @Id
@@ -68,5 +70,10 @@ public class Attendance {
   @Override
   public int hashCode() {
       return Objects.hash(id);
+  }
+
+  @Override
+  public String toString() {
+      return new ToStringCreator(this).append("id", id).toString();
   }
 }

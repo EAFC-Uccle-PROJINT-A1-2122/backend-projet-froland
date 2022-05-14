@@ -8,6 +8,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.springframework.core.style.ToStringCreator;
+
 @Entity
 public class Session {
   @Id
@@ -72,5 +74,10 @@ public class Session {
   @Override
   public int hashCode() {
       return Objects.hash(id);
+  }
+
+  @Override
+  public String toString() {
+      return new ToStringCreator(this).append("id", id).toString();
   }
 }

@@ -7,6 +7,8 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 
+import org.springframework.core.style.ToStringCreator;
+
 @Entity
 public class AcademicYear {
   @Id
@@ -59,6 +61,7 @@ public class AcademicYear {
 
   @Override
   public String toString() {
-    return String.format("%d-%d", beginning.getYear(), end.getYear());
+    String yearString = String.format("%d-%d", beginning.getYear(), end.getYear());
+    return new ToStringCreator(this).append(yearString).toString();
   }
 }

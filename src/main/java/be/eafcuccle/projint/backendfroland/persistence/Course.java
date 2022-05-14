@@ -1,8 +1,12 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+
+import org.springframework.core.style.ToStringCreator;
 
 @Entity
 public class Course {
@@ -33,5 +37,24 @@ public class Course {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+      if (obj == null || obj.getClass() != this.getClass()) return false;
+      if (obj == this) return true;
+
+      Course other = (Course) obj;
+      return Objects.equals(this.id, other.id);
+  }
+
+  @Override
+  public int hashCode() {
+      return Objects.hash(id);
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringCreator(this).append("name", name).toString();
   }
 }

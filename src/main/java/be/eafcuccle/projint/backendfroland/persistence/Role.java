@@ -14,6 +14,8 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 
+import org.springframework.core.style.ToStringCreator;
+
 @Entity
 public class Role {
   @Id
@@ -62,5 +64,10 @@ public class Role {
   @Override
   public int hashCode() {
       return Objects.hash(name);
+  }
+
+  @Override
+  public String toString() {
+    return new ToStringCreator(this).append("name", name).toString();
   }
 }

@@ -12,6 +12,8 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 
+import org.springframework.core.style.ToStringCreator;
+
 @Entity
 public class Person {
   @Id
@@ -116,6 +118,7 @@ public class Person {
 
   @Override
   public String toString() {
-      return String.format("%s %s", firstName, lastName);
+      String name = String.format("%s %s", firstName, lastName);
+      return new ToStringCreator(this).append(name).append("id", id).toString();
   }
 }

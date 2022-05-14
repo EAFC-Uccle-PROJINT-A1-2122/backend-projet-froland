@@ -14,6 +14,8 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 
+import org.springframework.core.style.ToStringCreator;
+
 @Entity
 public class CourseClass {
   @Id
@@ -121,7 +123,7 @@ public class CourseClass {
 
   @Override
   public String toString() {
-    return identifier;
+    return new ToStringCreator(this).append("id", id).toString();
   }
 
 }
