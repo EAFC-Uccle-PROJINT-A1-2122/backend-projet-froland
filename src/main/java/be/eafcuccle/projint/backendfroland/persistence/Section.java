@@ -16,7 +16,9 @@ public class Section {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
+
   private String name;
+
   @ManyToMany
   @JoinTable(
     name = "section_course",

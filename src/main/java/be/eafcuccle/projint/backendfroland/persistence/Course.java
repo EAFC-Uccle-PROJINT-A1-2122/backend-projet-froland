@@ -13,9 +13,8 @@ public class Course {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
+
   private String name;
-  @ManyToMany(mappedBy = "courses")
-  private Collection<Section> sections;
 
   public Course(String name) {
     this.name = name;
@@ -39,13 +38,4 @@ public class Course {
   public void setName(String name) {
     this.name = name;
   }
-
-  public Collection<Section> getSections() {
-      return sections;
-  }
-
-  public void addSection(Section section) {
-    sections.add(section);
-  }
-
 }
