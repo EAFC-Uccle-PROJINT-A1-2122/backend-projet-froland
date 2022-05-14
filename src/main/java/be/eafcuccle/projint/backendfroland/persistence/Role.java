@@ -48,6 +48,10 @@ public class Role {
     permissions.add(permission);
   }
 
+  public void revoke(Permission permission) {
+    permissions.remove(permission);
+  }
+
   public boolean isAllowed(Permission permission) {
     return permissions.contains(permission);
   }
