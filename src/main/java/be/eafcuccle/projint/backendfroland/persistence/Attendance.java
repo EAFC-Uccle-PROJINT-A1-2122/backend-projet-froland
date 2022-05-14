@@ -39,6 +39,10 @@ public class Attendance {
     return id;
   }
 
+  void setId(Long id) {
+    this.id = id;
+  }
+
   public Session getSession() {
     return session;
   }

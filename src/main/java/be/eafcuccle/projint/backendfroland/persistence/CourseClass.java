@@ -4,6 +4,7 @@ import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -97,8 +98,16 @@ public class CourseClass {
     return sessions.stream().mapToInt(Session::getPeriods).sum();
   }
 
+  Set<Session> getSessionsByDate(LocalDate date) {
+    return sessions.stream().filter(s -> s.hasHappenedBy(date)).collect(Collectors.toSet());
+  }
+
   public int computePeriodTotalByDate(LocalDate date) {
-    return sessions.stream().filter(s -> s.hasHappenedBy(date)).mapToInt(Session::getPeriods).sum();
+    return getSessionsByDate(date).stream().mapToInt(Session::getPeriods).sum();
+  }
+
+  public Set<Session> getSessions() {
+      return sessions;
   }
 
   public void addSession(Session session) {

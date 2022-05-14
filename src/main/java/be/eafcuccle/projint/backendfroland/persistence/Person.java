@@ -1,5 +1,6 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -104,6 +105,20 @@ public class Person {
     attendances.remove(attendance);
   }
 
+  private int computeAttendedPeriodTotalByDate(CourseClass courseClass, LocalDate byDate) {
+    Set<Session> sessionsByDate = courseClass.getSessionsByDate(byDate);
+    return attendances.stream()
+        .filter(a -> sessionsByDate.contains(a.getSession()))
+        .mapToInt(a -> a.computeAttendedPeriods())
+        .sum();
+  }
+
+  public float computeAttendance(CourseClass courseClass, LocalDate byDate) {
+    int totalPeriods = courseClass.computePeriodTotalByDate(byDate);
+    int attendedPeriods = computeAttendedPeriodTotalByDate(courseClass, byDate);
+    return totalPeriods == 0 ? 0 : attendedPeriods * 1F / totalPeriods;
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj == null || obj.getClass() != this.getClass())
@@ -117,12 +132,12 @@ public class Person {
 
   @Override
   public int hashCode() {
-      return Objects.hash(id);
+    return Objects.hash(id);
   }
 
   @Override
   public String toString() {
-      String name = String.format("%s %s", firstName, lastName);
-      return new ToStringCreator(this).append(name).append("id", id).toString();
+    String name = String.format("%s %s", firstName, lastName);
+    return new ToStringCreator(this).append(name).append("id", id).toString();
   }
 }
