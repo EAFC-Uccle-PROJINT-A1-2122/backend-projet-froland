@@ -32,48 +32,69 @@ public class Attendance {
     this.status = status;
   }
 
-  protected Attendance() {}
+  protected Attendance() {
+  }
 
   public Long getId() {
-      return id;
+    return id;
   }
 
   public Session getSession() {
-      return session;
+    return session;
   }
 
   public AttendanceStatus getStatus() {
-      return status;
+    return status;
   }
 
   public void setStatus(AttendanceStatus status) {
-      this.status = status;
+    this.status = status;
   }
 
   public Integer getPresencePeriods() {
-      return presencePeriods;
+    return presencePeriods;
   }
 
   public void setPresencePeriods(Integer presencePeriods) {
-      this.presencePeriods = presencePeriods;
+    this.presencePeriods = presencePeriods;
+  }
+
+  public int computeAttendedPeriods() {
+    switch (status) {
+      case ABSENT_WITHOUT_EXCUSE:
+        return 0;
+      case ABSENT_WITH_EXCUSE:
+        return session.getPeriods();
+      case ABSENT_WITH_MEDICAL_CERTIFICATE:
+        return session.getPeriods();
+      case PRESENT:
+        if (presencePeriods != null)
+          return presencePeriods;
+        else
+          return session.getPeriods();
+      default:
+        throw new IllegalStateException("Unknown status");
+    }
   }
 
   @Override
   public boolean equals(Object obj) {
-      if (obj == null || obj.getClass() != this.getClass()) return false;
-      if (obj == this) return true;
+    if (obj == null || obj.getClass() != this.getClass())
+      return false;
+    if (obj == this)
+      return true;
 
-      Attendance other = (Attendance) obj;
-      return Objects.equals(this.id, other.id);
+    Attendance other = (Attendance) obj;
+    return Objects.equals(this.id, other.id);
   }
 
   @Override
   public int hashCode() {
-      return Objects.hash(id);
+    return Objects.hash(id);
   }
 
   @Override
   public String toString() {
-      return new ToStringCreator(this).append("id", id).toString();
+    return new ToStringCreator(this).append("id", id).toString();
   }
 }
