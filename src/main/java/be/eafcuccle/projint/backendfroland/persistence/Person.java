@@ -88,6 +88,10 @@ public class Person {
     roles.remove(role);
   }
 
+  public boolean isAllowed(Permission permission) {
+    return roles.stream().anyMatch(r -> r.isAllowed(permission));
+  }
+
   public Set<Attendance> getAttendances() {
     return attendances;
   }
