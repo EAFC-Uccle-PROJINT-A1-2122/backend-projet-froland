@@ -19,6 +19,7 @@ enum Permission {
 }
 class Role {
   -name : String
+  +grant(permission : Permission) : void
   +isAllowed(permission : Permission) : boolean
 }
 class Person {

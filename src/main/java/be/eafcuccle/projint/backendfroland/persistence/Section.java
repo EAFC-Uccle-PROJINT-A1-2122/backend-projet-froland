@@ -14,7 +14,7 @@ import javax.persistence.ManyToMany;
 @Entity
 public class Section {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue
   private Long id;
 
   private String name;

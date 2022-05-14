@@ -11,7 +11,7 @@ import javax.persistence.Id;
 @Entity
 public class AcademicYear {
   @Id
-  @GeneratedValue(strategy = GenerationType.SEQUENCE)
+  @GeneratedValue
   private Long id;
 
   private LocalDate beginning;
