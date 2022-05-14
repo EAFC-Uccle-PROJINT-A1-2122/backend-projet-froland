@@ -1,9 +1,11 @@
 @startuml conception_classes
 left to right direction
 skinparam nodesep 100
-skinparam ranksep 120
 
 class Section {
+  -name : String
+}
+class Course {
   -name : String
 }
 class AcademicYear {
@@ -11,40 +13,56 @@ class AcademicYear {
   -end : LocalDate
   +contains(date : LocalDate) : boolean
 }
+enum Permission {
+  READ_PERSON_DETAILS
+  ...
+}
+class Role {
+  -name : String
+  +isAllowed(permission : Permission) : boolean
+}
 class Person {
-  firstName
-  lastName
-  emailAddress
-  phoneNumber
-}
-class Course {
-  name
-}
-class CourseClass {
-  identifier
-  capacity
+  -firstName : String
+  -lastName : String
+  -emailAddress : String
+  -phoneNumber : String
+  +computeAttendance(courseClass : CourseClass, byDate : LocalDate) : float
+  +isAllowedTo(permission : Permission) : boolean
 }
 class Session {
-  day
-  beginningTime
-  endTime
+  -date : LocalDate
+  -beginningTime : LocalTime
+  -endTime : LocalTime
+  -periods : int
+  +hasHappened(byDate : LocalDate) : boolean
 }
-class Presence {
-  status
-  periods
+class Attendance {
+  -presencePeriods : Integer
+  +computeAttendedPeriods() : int
 }
-
-class Role {
-  name
+enum AttendanceStatus {
+  PRESENT
+  CONNECTED
+  ABSENT_WITHOUT_EXCUSE
+  ABSENT_WITH_EXCUSE
+  ABSENT_WITH_MEDICAL_CERTIFICATE
+}
+class CourseClass {
+  -identifier : String
+  -studentCapacity : int
+  +computePeriodTotal() : int
+  +computePeriodTotal(byDate : LocalDate) : int
 }
 
 Section "1..*" o--> "1..*" Course
 Course "1" <- "0..*" CourseClass : instantiates <
-AcademicYear "1" *-- "1..*" CourseClass
-CourseClass "0..*" --> "teacher\n1..*" Person
-CourseClass "0..*" --> "students\n0..*" Person
-CourseClass "1" *- "0..*" Session
-Role "0..*" <- "0..*" Person : is granted <
-Person "1" <- "0..*" Presence : concerns <
-Session "1" -- "0..*" Presence : concerns <
+AcademicYear "1" <-- "1..*" CourseClass
+CourseClass "0..*" -> "teacher\n1..*" Person
+CourseClass "0..*" -> "students\n0..*" Person
+CourseClass "1" *--> "0..*" Session
+Role "0..*" <-- "0..*" Person : is granted <
+Role "0..*" o-> "0..*" Permission
+Person "student\n1" <- "0..*" Attendance : concerns <
+Session "session\n1" <- "0..*" Attendance
+Attendance "0..*" -> "1\nstatus" AttendanceStatus
 @enduml
