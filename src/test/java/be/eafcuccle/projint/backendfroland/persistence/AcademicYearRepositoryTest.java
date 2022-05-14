@@ -3,6 +3,7 @@ package be.eafcuccle.projint.backendfroland.persistence;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
+import java.time.LocalDate;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -20,12 +21,12 @@ public class AcademicYearRepositoryTest {
 
   @Test
   public void saveAndFindById() {
-    AcademicYear newAcademicYear = new AcademicYear(2021);
+    AcademicYear newAcademicYear = new AcademicYear(LocalDate.of(2021, 9, 1), LocalDate.of(2022, 8, 28));
     Long id = academicYearRepository.save(newAcademicYear).getId();
     em.flush();
 
     Optional<AcademicYear> foundAcademicYear = academicYearRepository.findById(id);
     assertTrue(foundAcademicYear.isPresent());
-    assertEquals(2021, foundAcademicYear.get().getBeginningYear());
+    assertEquals(2021, foundAcademicYear.get().getBeginning().getYear());
   }
 }

@@ -1,4 +1,6 @@
 CREATE TABLE academic_year (
   id integer primary key,
-  beginning_year integer not null
+  beginning date not null,
+  end date not null,
+  CONSTRAINT uq_academic_year UNIQUE (beginning, end)
 );

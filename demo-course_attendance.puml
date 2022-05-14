@@ -6,6 +6,11 @@ skinparam ranksep 120
 class Section {
   -name : String
 }
+class AcademicYear {
+  -beginning : LocalDate
+  -end : LocalDate
+  +contains(date : LocalDate) : boolean
+}
 class Person {
   firstName
   lastName
@@ -27,10 +32,6 @@ class Session {
 class Presence {
   status
   periods
-}
-class AcademicYear {
-  beginningYear
-  endYear
 }
 
 class Role {

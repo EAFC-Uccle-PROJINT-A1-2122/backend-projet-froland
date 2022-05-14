@@ -17,7 +17,8 @@
   },
   // Set *default* container specific settings.json values on container create.
   "settings": {
-    "java.jdt.ls.java.home": "/docker-java-home"
+    "java.jdt.ls.java.home": "/docker-java-home",
+    "java.format.settings.url": "https://raw.githubusercontent.com/google/styleguide/gh-pages/eclipse-java-google-style.xml"
   },
   // Add the IDs of extensions you want installed when the container is created.
   "extensions": [

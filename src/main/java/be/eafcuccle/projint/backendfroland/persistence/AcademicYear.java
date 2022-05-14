@@ -1,5 +1,8 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
+import java.time.LocalDate;
+import java.util.Objects;
+
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -10,24 +13,49 @@ public class AcademicYear {
   @Id
   @GeneratedValue(strategy = GenerationType.SEQUENCE)
   private Long id;
-  private int beginningYear;
 
-  public AcademicYear(int beginningYear) {
-    this.beginningYear = beginningYear;
+  private LocalDate beginning;
+
+  private LocalDate end;
+
+  public AcademicYear(LocalDate beginning, LocalDate end) {
+    this.beginning = beginning;
+    this.end = end;
   }
 
   public Long getId() {
-      return id;
+    return id;
   }
 
   protected AcademicYear() {
   }
 
-  public int getBeginningYear() {
-    return beginningYear;
+  public LocalDate getBeginning() {
+    return beginning;
   }
 
-  public int getEndYear() {
-    return beginningYear + 1;
+  public LocalDate getEnd() {
+    return end;
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+    if (obj == null || obj.getClass() != this.getClass())
+      return false;
+    if (obj == this)
+      return true;
+
+    AcademicYear other = (AcademicYear) obj;
+    return Objects.equals(this.beginning, other.beginning) && Objects.equals(this.end, other.end);
+  }
+
+  @Override
+  public int hashCode() {
+      return Objects.hash(beginning, end);
+  }
+
+  @Override
+  public String toString() {
+    return String.format("%d-%d", beginning.getYear(), end.getYear());
   }
 }
