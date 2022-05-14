@@ -37,6 +37,10 @@ public class AcademicYear {
     return end;
   }
 
+  public boolean contains(LocalDate date) {
+    return date.isEqual(beginning) || (date.isAfter(beginning) && date.isBefore(end)) || date.isEqual(end);
+  }
+
   @Override
   public boolean equals(Object obj) {
     if (obj == null || obj.getClass() != this.getClass())
@@ -50,7 +54,7 @@ public class AcademicYear {
 
   @Override
   public int hashCode() {
-      return Objects.hash(beginning, end);
+    return Objects.hash(beginning, end);
   }
 
   @Override
