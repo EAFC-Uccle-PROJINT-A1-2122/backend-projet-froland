@@ -37,4 +37,17 @@ public class PersonTest {
 
     assertTrue(result);
   }
+
+  @Test
+  public void isAllowedWithRevokedRole() {
+    Person person = new Person("Harry", "Potter");
+    Role role = new Role("ALLOWED");
+    role.grant(Permission.READ_PERSON_DETAILS);
+    person.grant(role);
+    person.revoke(role);
+
+    boolean result = person.isAllowed(Permission.READ_PERSON_DETAILS);
+
+    assertFalse(result);
+  }
 }
