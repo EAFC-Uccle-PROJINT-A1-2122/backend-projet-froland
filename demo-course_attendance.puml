@@ -38,7 +38,7 @@ class Session {
   -beginningTime : LocalTime
   -endTime : LocalTime
   -periods : int
-  +hasHappened(byDate : LocalDate) : boolean
+  +hasHappenedBy(date : LocalDate) : boolean
 }
 class Attendance {
   -presencePeriods : Integer
@@ -54,7 +54,7 @@ enum AttendanceStatus {
 class CourseClass {
   -identifier : String
   +computePeriodTotal() : int
-  +computePeriodTotal(byDate : LocalDate) : int
+  +computePeriodTotalByDate(date : LocalDate) : int
 }
 
 Section "1..*" o--> "1..*" Course

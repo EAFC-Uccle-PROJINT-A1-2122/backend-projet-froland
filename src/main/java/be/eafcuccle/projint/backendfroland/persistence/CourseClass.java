@@ -1,5 +1,6 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
+import java.time.LocalDate;
 import java.util.HashSet;
 import java.util.Objects;
 import java.util.Set;
@@ -47,26 +48,27 @@ public class CourseClass {
     this.academicYear = academicYear;
   }
 
-  protected CourseClass() {}
+  protected CourseClass() {
+  }
 
   public Long getId() {
-      return id;
+    return id;
   }
 
   public String getIdentifier() {
-      return identifier;
+    return identifier;
   }
 
   public AcademicYear getAcademicYear() {
-      return academicYear;
+    return academicYear;
   }
 
   public Course getCourse() {
-      return course;
+    return course;
   }
 
   public Set<Person> getTeachers() {
-      return teachers;
+    return teachers;
   }
 
   public void addTeacher(Person teacher) {
@@ -78,7 +80,7 @@ public class CourseClass {
   }
 
   public Set<Person> getStudents() {
-      return students;
+    return students;
   }
 
   public void addStudent(Person student) {
@@ -89,22 +91,37 @@ public class CourseClass {
     students.remove(student);
   }
 
+  public int computePeriodTotal() {
+    return sessions.stream().mapToInt(Session::getPeriods).sum();
+  }
+
+  public int computePeriodTotalByDate(LocalDate date) {
+    return sessions.stream().filter(s -> s.hasHappenedBy(date)).mapToInt(Session::getPeriods).sum();
+  }
+
+  public void addSession(Session session) {
+    sessions.add(session);
+  }
+
   @Override
   public boolean equals(Object obj) {
-      if (obj == null || obj.getClass() != this.getClass()) return false;
-      if (obj == this) return true;
+    if (obj == null || obj.getClass() != this.getClass())
+      return false;
+    if (obj == this)
+      return true;
 
-      CourseClass other = (CourseClass) obj;
-      return Objects.equals(this.identifier, other.identifier);
+    CourseClass other = (CourseClass) obj;
+    return Objects.equals(this.identifier, other.identifier);
   }
 
   @Override
   public int hashCode() {
-      return Objects.hash(identifier);
+    return Objects.hash(identifier);
   }
 
   @Override
   public String toString() {
-      return identifier;
+    return identifier;
   }
+
 }

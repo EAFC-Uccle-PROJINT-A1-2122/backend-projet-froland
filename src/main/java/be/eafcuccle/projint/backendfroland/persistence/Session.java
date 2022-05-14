@@ -36,6 +36,10 @@ public class Session {
       return id;
   }
 
+  void setId(Long id) {
+    this.id = id;
+  }
+
   public LocalDate getDate() {
       return date;
   }
@@ -50,6 +54,10 @@ public class Session {
 
   public int getPeriods() {
       return periods;
+  }
+
+  public boolean hasHappenedBy(LocalDate byDate) {
+    return byDate.isEqual(date) || byDate.isAfter(date);
   }
 
   @Override
