@@ -1,6 +1,7 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
 import java.util.HashSet;
+import java.util.Objects;
 import java.util.Set;
 
 import javax.persistence.Column;
@@ -47,5 +48,19 @@ public class Role {
 
   public boolean isAllowed(Permission permission) {
     return permissions.contains(permission);
+  }
+
+  @Override
+  public boolean equals(Object obj) {
+      if (obj == null || obj.getClass() != this.getClass()) return false;
+      if (obj == this) return true;
+
+      Role other = (Role) obj;
+      return Objects.equals(this.name, other.name);
+  }
+
+  @Override
+  public int hashCode() {
+      return Objects.hash(name);
   }
 }

@@ -20,6 +20,7 @@ enum Permission {
 class Role {
   -name : String
   +grant(permission : Permission) : void
+  +revoke(permission : Permission) : void
   +isAllowed(permission : Permission) : boolean
 }
 class Person {
@@ -28,6 +29,8 @@ class Person {
   -emailAddress : String
   -phoneNumber : String
   +computeAttendance(courseClass : CourseClass, byDate : LocalDate) : float
+  +grant(role : Role) : void
+  +revoke(role : Role) : void
   +isAllowedTo(permission : Permission) : boolean
 }
 class Session {
