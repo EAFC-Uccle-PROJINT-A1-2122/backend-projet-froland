@@ -1,0 +1,24 @@
+@baseurl = http://localhost:8080
+
+GET {{baseurl}}/api/v1/sections
+Accept: application/json
+
+###
+
+POST {{baseurl}}/api/v1/sections
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": "Informatique de gestion"
+}
+
+###
+
+POST {{baseurl}}/api/v1/sections
+Accept: application/json
+Content-Type: application/json
+
+{
+  "name": " "
+}
