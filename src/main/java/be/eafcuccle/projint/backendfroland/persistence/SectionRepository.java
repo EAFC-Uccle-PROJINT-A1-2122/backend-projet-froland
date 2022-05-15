@@ -1,7 +1,7 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface SectionRepository extends CrudRepository<Section, Long> {
+public interface SectionRepository extends JpaRepository<Section, Long> {
 
 }
