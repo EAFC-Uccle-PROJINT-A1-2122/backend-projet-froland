@@ -1,7 +1,7 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface AcademicYearRepository extends CrudRepository<AcademicYear, Long> {
+public interface AcademicYearRepository extends JpaRepository<AcademicYear, Long> {
 
 }

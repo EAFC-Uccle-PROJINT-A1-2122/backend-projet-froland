@@ -1,16 +1,13 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
 import java.time.LocalTime;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 @DataJpaTest
 public class AttendanceRepositoryTest {
@@ -23,9 +20,6 @@ public class AttendanceRepositoryTest {
   @Autowired
   private SessionRepository sessionRepository;
 
-  @Autowired
-  private TestEntityManager em;
-
   @Test
   public void saveAndFindById() {
     Person student = new Person("Hatim", "El Amri");
@@ -34,13 +28,11 @@ public class AttendanceRepositoryTest {
     Long sessionId = sessionRepository.save(session).getId();
     Attendance newAttendance = new Attendance(session, AttendanceStatus.PRESENT);
     student.addAttendance(newAttendance);
-    Long id = attendanceRepository.save(newAttendance).getId();
-    em.flush();
+    Long id = attendanceRepository.saveAndFlush(newAttendance).getId();
 
-    Optional<Attendance> foundAttendance = attendanceRepository.findById(id);
+    Attendance foundAttendance = attendanceRepository.getById(id);
 
-    assertTrue(foundAttendance.isPresent());
-    assertEquals(sessionId, foundAttendance.get().getSession().getId());
-    assertEquals(AttendanceStatus.PRESENT, foundAttendance.get().getStatus());
+    assertEquals(sessionId, foundAttendance.getSession().getId());
+    assertEquals(AttendanceStatus.PRESENT, foundAttendance.getStatus());
   }
 }

@@ -1,15 +1,12 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
 
 import java.time.LocalDate;
-import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
-import org.springframework.boot.test.autoconfigure.orm.jpa.TestEntityManager;
 
 @DataJpaTest
 public class CourseClassRepositoryTest {
@@ -25,9 +22,6 @@ public class CourseClassRepositoryTest {
   @Autowired
   private PersonRepository personRepository;
 
-  @Autowired
-  private TestEntityManager em;
-
   @Test
   public void saveAndFindById() {
     Course course = new Course("Projet d'intégration de développement");
@@ -42,11 +36,9 @@ public class CourseClassRepositoryTest {
     newCourseClass.addTeacher(teacher);
     newCourseClass.addStudent(student);
     Long id = courseClassRepository.save(newCourseClass).getId();
-    em.flush();
 
-    Optional<CourseClass> foundCourseClass = courseClassRepository.findById(id);
+    CourseClass foundCourseClass = courseClassRepository.getById(id);
 
-    assertTrue(foundCourseClass.isPresent());
-    assertEquals("PROJINT-A1-2122", foundCourseClass.get().getIdentifier());
+    assertEquals("PROJINT-A1-2122", foundCourseClass.getIdentifier());
   }
 }
