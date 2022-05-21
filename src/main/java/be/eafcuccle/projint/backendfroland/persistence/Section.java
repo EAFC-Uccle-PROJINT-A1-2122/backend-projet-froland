@@ -10,7 +10,7 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.Version;
 import org.springframework.core.style.ToStringCreator;
 
 @Entity
@@ -28,6 +28,9 @@ public class Section {
     inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id")
   )
   private Collection<Course> courses = new ArrayList<>();
+
+  @Version
+  private long version;
 
   public Section(String name) {
     this.name = name;
@@ -64,22 +67,26 @@ public class Section {
     courses.add(course);
   }
 
+  public long getVersion() {
+      return version;
+  }
+
   @Override
   public boolean equals(Object obj) {
       if (obj == null || obj.getClass() != this.getClass()) return false;
       if (obj == this) return true;
 
       Section other = (Section) obj;
-      return Objects.equals(this.name, other.name);
+      return Objects.equals(this.name, other.name) && this.version == other.version;
   }
 
   @Override
   public int hashCode() {
-      return Objects.hash(name);
+      return Objects.hash(name, version);
   }
 
   @Override
   public String toString() {
-    return new ToStringCreator(this).append(name).toString();
+    return new ToStringCreator(this).append(name).append("v", version).toString();
   }
 }
