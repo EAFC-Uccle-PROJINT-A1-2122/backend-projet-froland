@@ -56,6 +56,10 @@ public class Section {
     return courses;
   }
 
+  public void setCourses(Collection<Course> courses) {
+      this.courses = courses;
+  }
+
   public void addCourse(Course course) {
     courses.add(course);
   }
