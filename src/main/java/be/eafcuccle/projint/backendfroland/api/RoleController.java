@@ -24,7 +24,7 @@ public class RoleController {
   }
 
   @GetMapping
-  public List<RoleTO> allCourses() {
+  public List<RoleTO> allRoles() {
     List<Role> roles = roleRepository.findAll();
     return roles.stream().map(RoleController::convertEntity).collect(Collectors.toList());
   }
