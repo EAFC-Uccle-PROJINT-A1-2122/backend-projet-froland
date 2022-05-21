@@ -15,7 +15,7 @@ import be.eafcuccle.projint.backendfroland.persistence.AcademicYear;
 import be.eafcuccle.projint.backendfroland.persistence.AcademicYearRepository;
 
 @RestController
-@RequestMapping("/api/v1/academicYear")
+@RequestMapping("/api/v1/academicYears")
 public class AcademicYearController {
   private final AcademicYearRepository academicYearRepository;
 
