@@ -3,6 +3,7 @@ package be.eafcuccle.projint.backendfroland.api;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class RoleController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createRole(@RequestBody RoleTO roleTO, UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<?> createRole(@Valid @RequestBody RoleTO roleTO, UriComponentsBuilder uriBuilder) {
     Role role = convertTO(roleTO);
     Long id = roleRepository.save(role).getId();
     URI newRoleUri = uriBuilder.path("/api/v1/roles/{id}").build(id);

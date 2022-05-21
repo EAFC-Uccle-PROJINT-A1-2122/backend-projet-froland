@@ -3,6 +3,7 @@ package be.eafcuccle.projint.backendfroland.api;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class AcademicYearController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createAcademicYear(@RequestBody AcademicYearTO academicYearTO, UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<?> createAcademicYear(@Valid @RequestBody AcademicYearTO academicYearTO, UriComponentsBuilder uriBuilder) {
     AcademicYear academicYear = convertTO(academicYearTO);
     Long id = academicYearRepository.save(academicYear).getId();
     URI newAcademicYearUri = uriBuilder.path("/api/v1/academicYears/{id}").build(id);

@@ -3,6 +3,7 @@ package be.eafcuccle.projint.backendfroland.api;
 import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -37,7 +38,7 @@ public class CourseController {
   }
 
   @PostMapping
-  public ResponseEntity<?> createCourse(@RequestBody CourseTO courseTO, UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<?> createCourse(@Valid @RequestBody CourseTO courseTO, UriComponentsBuilder uriBuilder) {
     Course course = convertTO(courseTO);
     Long id = courseRepository.save(course).getId();
     URI newCourseUri = uriBuilder.path("/api/v1/courses/{id}").build(id);

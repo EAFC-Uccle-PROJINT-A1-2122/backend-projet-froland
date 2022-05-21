@@ -14,7 +14,7 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
-
+import javax.persistence.Version;
 import org.springframework.core.style.ToStringCreator;
 
 @Entity
@@ -44,6 +44,9 @@ public class CourseClass {
   @ManyToMany
   @JoinTable(name = "course_class_student", joinColumns = @JoinColumn(name = "course_class_id"), inverseJoinColumns = @JoinColumn(name = "student_id"))
   private Set<Person> students = new HashSet<>();
+
+  @Version
+  private long version;
 
   public CourseClass(String identifier, Course course, AcademicYear academicYear) {
     this.identifier = identifier;
@@ -112,6 +115,10 @@ public class CourseClass {
 
   public void addSession(Session session) {
     sessions.add(session);
+  }
+
+  public long getVersion() {
+      return version;
   }
 
   @Override
