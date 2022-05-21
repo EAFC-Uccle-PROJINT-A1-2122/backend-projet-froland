@@ -6,7 +6,7 @@ import java.util.Objects;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
-
+import javax.persistence.Version;
 import org.springframework.core.style.ToStringCreator;
 
 @Entity
@@ -18,6 +18,9 @@ public class AcademicYear {
   private LocalDate beginning;
 
   private LocalDate end;
+
+  @Version
+  private long version;
 
   public AcademicYear(LocalDate beginning, LocalDate end) {
     this.beginning = beginning;
@@ -37,6 +40,10 @@ public class AcademicYear {
 
   public LocalDate getEnd() {
     return end;
+  }
+
+  public long getVersion() {
+      return version;
   }
 
   public boolean contains(LocalDate date) {
