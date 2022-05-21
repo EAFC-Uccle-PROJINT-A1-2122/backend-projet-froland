@@ -1,5 +1,6 @@
 package be.eafcuccle.projint.backendfroland.api;
 
+import java.net.URI;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -35,34 +36,45 @@ public class SectionController {
   @GetMapping("")
   public ResponseEntity<List<SectionTO>> allSections() {
     List<Section> sections = sectionRepository.findAll();
-    List<SectionTO> sectionsTO = sections.stream().map(s -> new SectionTO(s.getId(), s.getName()))
-        .collect(Collectors.toList());
+    List<SectionTO> sectionsTO =
+        sections.stream().map(SectionController::convertEntity).collect(Collectors.toList());
     return ResponseEntity.ok().body(sectionsTO);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<SectionTO> sectionDetails(@PathVariable Long id) {
     Section section = sectionRepository.getById(id);
-    SectionTO sectionTO = new SectionTO(section.getId(), section.getName());
+    SectionTO sectionTO = convertEntity(section);
     return ResponseEntity.ok().eTag(Long.toString(section.getVersion())).body(sectionTO);
   }
 
   @PostMapping("")
-  public ResponseEntity<?> createSection(@Valid @RequestBody SectionTO sectionTO, UriComponentsBuilder uriBuilder) {
-    Section section = new Section(sectionTO.getName());
+  public ResponseEntity<?> createSection(@Valid @RequestBody SectionTO sectionTO,
+      UriComponentsBuilder uriBuilder) {
+    Section section = convertTO(sectionTO);
     try {
       Long sectionId = sectionRepository.save(section).getId();
-      return ResponseEntity.created(uriBuilder.path("/api/v1/sections/{id}").build(sectionId)).build();
+      URI newSectionUri = uriBuilder.path("/api/v1/sections/{id}").build(sectionId);
+      return ResponseEntity.created(newSectionUri).build();
     } catch (DataIntegrityViolationException e) {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
   }
 
   @PostMapping("/{id}/courses")
-  public ResponseEntity<?> addCourseToSection(@PathVariable Long sectionId, @RequestBody IdentifierTO courseIdentifier) {
+  public ResponseEntity<?> addCourseToSection(@PathVariable Long sectionId,
+      @RequestBody IdentifierTO courseIdentifier) {
     Section section = sectionRepository.getById(sectionId);
     Course course = courseRepository.getById(courseIdentifier.getId());
     section.addCourse(course);
     return ResponseEntity.noContent().build();
+  }
+
+  private static Section convertTO(SectionTO sectionTO) {
+    return new Section(sectionTO.getName());
+  }
+
+  private static SectionTO convertEntity(Section section) {
+    return new SectionTO(section.getId(), section.getName());
   }
 }

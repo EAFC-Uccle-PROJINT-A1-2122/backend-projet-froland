@@ -26,21 +26,29 @@ public class CourseController {
   @GetMapping
   public List<CourseTO> allCourses() {
     List<Course> courses = courseRepository.findAll();
-    return courses.stream().map(s -> new CourseTO(s.getId(), s.getName())).collect(Collectors.toList());
+    return courses.stream().map(CourseController::convertEntity).collect(Collectors.toList());
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<CourseTO> courseDetails(@PathVariable Long courseId) {
     Course course = courseRepository.getById(courseId);
-    CourseTO courseTO = new CourseTO(course.getId(), course.getName());
+    CourseTO courseTO = convertEntity(course);
     return ResponseEntity.ok().eTag(Long.toString(course.getVersion())).body(courseTO);
   }
 
   @PostMapping
   public ResponseEntity<?> createCourse(@RequestBody CourseTO courseTO, UriComponentsBuilder uriBuilder) {
-    Course course = new Course(courseTO.getName());
+    Course course = convertTO(courseTO);
     Long id = courseRepository.save(course).getId();
     URI newCourseUri = uriBuilder.path("/api/v1/courses/{id}").build(id);
     return ResponseEntity.created(newCourseUri).build();
+  }
+
+  private static Course convertTO(CourseTO courseTO) {
+    return new Course(courseTO.getName());
+  }
+
+  private static CourseTO convertEntity(Course course) {
+    return new CourseTO(course.getId(), course.getName());
   }
 }
