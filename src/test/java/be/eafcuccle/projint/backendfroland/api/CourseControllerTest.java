@@ -15,6 +15,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
 import be.eafcuccle.projint.backendfroland.persistence.Course;
 import be.eafcuccle.projint.backendfroland.persistence.CourseRepository;
+import be.eafcuccle.projint.backendfroland.persistence.SectionRepository;
 
 @ExtendWith(MockitoExtension.class)
 public class CourseControllerTest {
@@ -24,6 +25,8 @@ public class CourseControllerTest {
 
   @Mock
   private CourseRepository courseRepository;
+  @Mock
+  private SectionRepository sectionRepository;
   @InjectMocks
   private CourseController courseController;
   @Spy
@@ -47,7 +50,8 @@ public class CourseControllerTest {
     when(courseRepository.save(any(Course.class))).thenReturn(course1);
     when(course1.getId()).thenReturn(123L);
 
-    ResponseEntity<?> response = courseController.createCourse(COURSE1_TO, UriComponentsBuilder.newInstance());
+    ResponseEntity<?> response =
+        courseController.createCourse(COURSE1_TO, UriComponentsBuilder.newInstance());
 
     assertEquals(HttpStatus.CREATED, response.getStatusCode());
     assertEquals("/api/v1/courses/123", response.getHeaders().getLocation().getPath());

@@ -37,21 +37,21 @@ public class SectionController {
   public List<SectionTO> allSections() {
     List<Section> sections = sectionRepository.findAll();
     List<SectionTO> sectionsTO =
-        sections.stream().map(SectionController::convertEntity).collect(Collectors.toList());
+        sections.stream().map(SectionTO::of).collect(Collectors.toList());
     return sectionsTO;
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<SectionTO> sectionDetails(@PathVariable Long id) {
     Section section = sectionRepository.getById(id);
-    SectionTO sectionTO = convertEntity(section);
+    SectionTO sectionTO = SectionTO.of(section);
     return ResponseEntity.ok().eTag(Long.toString(section.getVersion())).body(sectionTO);
   }
 
   @PostMapping("")
   public ResponseEntity<?> createSection(@Valid @RequestBody SectionTO sectionTO,
       UriComponentsBuilder uriBuilder) {
-    Section section = convertTO(sectionTO);
+    Section section = sectionTO.convertToEntity();
     try {
       Long sectionId = sectionRepository.save(section).getId();
       URI newSectionUri = uriBuilder.path("/api/v1/sections/{id}").build(sectionId);
@@ -70,11 +70,4 @@ public class SectionController {
     return ResponseEntity.noContent().build();
   }
 
-  private static Section convertTO(SectionTO sectionTO) {
-    return new Section(sectionTO.getName());
-  }
-
-  private static SectionTO convertEntity(Section section) {
-    return new SectionTO(section.getId(), section.getName());
-  }
 }

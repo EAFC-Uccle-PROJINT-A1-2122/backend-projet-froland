@@ -1,6 +1,7 @@
 package be.eafcuccle.projint.backendfroland.api;
 
 import java.net.URI;
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
@@ -15,15 +16,19 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import be.eafcuccle.projint.backendfroland.persistence.Course;
 import be.eafcuccle.projint.backendfroland.persistence.CourseRepository;
+import be.eafcuccle.projint.backendfroland.persistence.Section;
+import be.eafcuccle.projint.backendfroland.persistence.SectionRepository;
 
 @RestController
 @RequestMapping("/api/v1/courses")
 @CrossOrigin
 public class CourseController {
   private final CourseRepository courseRepository;
+  private final SectionRepository sectionRepository;
 
-  public CourseController(CourseRepository courseRepository) {
+  public CourseController(CourseRepository courseRepository, SectionRepository sectionRepository) {
     this.courseRepository = courseRepository;
+    this.sectionRepository = sectionRepository;
   }
 
   @GetMapping
@@ -32,7 +37,7 @@ public class CourseController {
     return courses.stream().map(CourseController::convertEntity).collect(Collectors.toList());
   }
 
-  @GetMapping("/{id}")
+  @GetMapping("/{courseId}")
   public ResponseEntity<CourseTO> courseDetails(@PathVariable Long courseId) {
     Course course = courseRepository.getById(courseId);
     CourseTO courseTO = convertEntity(course);
@@ -45,6 +50,22 @@ public class CourseController {
     Long id = courseRepository.save(course).getId();
     URI newCourseUri = uriBuilder.path("/api/v1/courses/{id}").build(id);
     return ResponseEntity.created(newCourseUri).build();
+  }
+
+  @GetMapping("/{courseId}/sections")
+  public Collection<SectionTO> courseSections(@PathVariable Long courseId) {
+    Collection<Section> sections = sectionRepository.findByCoursesId(courseId);
+    return sections.stream().map(SectionTO::of).collect(Collectors.toList());
+  }
+
+  @PostMapping("/{courseId}/sections")
+  public ResponseEntity<?> addCourseSection(@PathVariable Long courseId, @RequestBody IdentifierTO sectionIdentifier, UriComponentsBuilder uriBuilder) {
+    Course course = courseRepository.getById(courseId);
+    Section section = sectionRepository.getById(sectionIdentifier.getId());
+    section.addCourse(course);
+    sectionRepository.save(section);
+    URI courseSectionsUri = uriBuilder.build().toUri();
+    return ResponseEntity.created(courseSectionsUri).build();
   }
 
   private static Course convertTO(CourseTO courseTO) {
