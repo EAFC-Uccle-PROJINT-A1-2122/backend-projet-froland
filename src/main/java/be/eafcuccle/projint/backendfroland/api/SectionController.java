@@ -34,11 +34,11 @@ public class SectionController {
   }
 
   @GetMapping("")
-  public ResponseEntity<List<SectionTO>> allSections() {
+  public List<SectionTO> allSections() {
     List<Section> sections = sectionRepository.findAll();
     List<SectionTO> sectionsTO =
         sections.stream().map(SectionController::convertEntity).collect(Collectors.toList());
-    return ResponseEntity.ok().body(sectionsTO);
+    return sectionsTO;
   }
 
   @GetMapping("/{id}")
