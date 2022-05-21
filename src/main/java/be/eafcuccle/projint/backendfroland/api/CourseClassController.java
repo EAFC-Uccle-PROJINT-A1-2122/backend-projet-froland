@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -21,6 +22,7 @@ import be.eafcuccle.projint.backendfroland.persistence.CourseRepository;
 
 @RestController
 @RequestMapping("/api/v1/courseClasses")
+@CrossOrigin
 public class CourseClassController {
   private final CourseClassRepository courseClassRepository;
   private final CourseRepository courseRepository;
