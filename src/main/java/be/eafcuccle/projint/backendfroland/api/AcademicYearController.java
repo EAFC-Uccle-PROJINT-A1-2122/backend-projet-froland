@@ -24,7 +24,7 @@ public class AcademicYearController {
   }
 
   @GetMapping
-  public List<AcademicYearTO> allCourses() {
+  public List<AcademicYearTO> allAcademicYears() {
     List<AcademicYear> academicYears = academicYearRepository.findAll();
     return academicYears.stream().map(AcademicYearController::convertEntity).collect(Collectors.toList());
   }
