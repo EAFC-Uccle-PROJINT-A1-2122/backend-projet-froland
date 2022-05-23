@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -34,7 +35,7 @@ public class CourseController {
 
   @GetMapping
   public List<CourseTO> allCourses() {
-    List<Course> courses = courseRepository.findAll();
+    List<Course> courses = courseRepository.findAll(Sort.by("name"));
     return courses.stream().map(CourseController::convertEntity).collect(Collectors.toList());
   }
 
