@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
@@ -35,7 +36,7 @@ public class SectionController {
 
   @GetMapping("")
   public List<SectionTO> allSections() {
-    List<Section> sections = sectionRepository.findAll();
+    List<Section> sections = sectionRepository.findAll(Sort.by("name"));
     List<SectionTO> sectionsTO =
         sections.stream().map(SectionTO::of).collect(Collectors.toList());
     return sectionsTO;
