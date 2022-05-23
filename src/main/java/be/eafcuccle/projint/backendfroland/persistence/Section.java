@@ -2,8 +2,9 @@ package be.eafcuccle.projint.backendfroland.persistence;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
-
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -27,7 +28,7 @@ public class Section {
     joinColumns = @JoinColumn(name = "section_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id")
   )
-  private Collection<Course> courses = new ArrayList<>();
+  private Set<Course> courses = new HashSet<>();
 
   @Version
   private long version;
@@ -59,12 +60,12 @@ public class Section {
     return courses;
   }
 
-  public void setCourses(Collection<Course> courses) {
-      this.courses = courses;
-  }
-
   public void addCourse(Course course) {
     courses.add(course);
+  }
+
+  public void removeCourse(Course course) {
+    courses.remove(course);
   }
 
   public long getVersion() {

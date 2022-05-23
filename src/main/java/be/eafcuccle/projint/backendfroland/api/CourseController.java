@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -38,7 +39,7 @@ public class CourseController {
   }
 
   @GetMapping("/{courseId}")
-  public ResponseEntity<CourseTO> courseDetails(@PathVariable Long courseId) {
+  public ResponseEntity<CourseTO> courseDetails(@PathVariable(name = "courseId") Long courseId) {
     Course course = courseRepository.getById(courseId);
     CourseTO courseTO = convertEntity(course);
     return ResponseEntity.ok().eTag(Long.toString(course.getVersion())).body(courseTO);
@@ -53,19 +54,27 @@ public class CourseController {
   }
 
   @GetMapping("/{courseId}/sections")
-  public Collection<SectionTO> courseSections(@PathVariable Long courseId) {
+  public Collection<SectionTO> courseSections(@PathVariable(name = "courseId") Long courseId) {
     Collection<Section> sections = sectionRepository.findByCoursesId(courseId);
     return sections.stream().map(SectionTO::of).collect(Collectors.toList());
   }
 
   @PostMapping("/{courseId}/sections")
-  public ResponseEntity<?> addCourseSection(@PathVariable Long courseId, @RequestBody IdentifierTO sectionIdentifier, UriComponentsBuilder uriBuilder) {
+  public ResponseEntity<?> addCourseSection(@PathVariable(name = "courseId") Long courseId, @RequestBody IdentifierTO sectionIdentifier, UriComponentsBuilder uriBuilder) {
     Course course = courseRepository.getById(courseId);
     Section section = sectionRepository.getById(sectionIdentifier.getId());
     section.addCourse(course);
     sectionRepository.save(section);
-    URI courseSectionsUri = uriBuilder.build().toUri();
-    return ResponseEntity.created(courseSectionsUri).build();
+    return ResponseEntity.noContent().build();
+  }
+
+  @DeleteMapping("/{courseId}/sections")
+  public ResponseEntity<?> removeCourseSection(@PathVariable(name = "courseId") Long courseId, @RequestBody IdentifierTO sectionIdentifier, UriComponentsBuilder uriBuilder) {
+    Course course = courseRepository.getById(courseId);
+    Section section = sectionRepository.getById(sectionIdentifier.getId());
+    section.removeCourse(course);
+    sectionRepository.save(section);
+    return ResponseEntity.noContent().build();
   }
 
   private static Course convertTO(CourseTO courseTO) {
