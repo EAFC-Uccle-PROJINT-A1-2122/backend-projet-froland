@@ -1,8 +1,0 @@
-auth0:
-  audience: http://localhost:8080/api
-spring:
-  security:
-    oauth2:
-        resourceserver:
-            jwt:
-                issuer-uri: https://dev-projint-a1-2122.eu.auth0.com/

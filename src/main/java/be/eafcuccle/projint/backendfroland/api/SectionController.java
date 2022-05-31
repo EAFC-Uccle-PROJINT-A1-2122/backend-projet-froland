@@ -8,6 +8,7 @@ import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -23,6 +24,7 @@ import be.eafcuccle.projint.backendfroland.persistence.SectionRepository;
 
 @RestController
 @RequestMapping("/api/v1/sections")
+@CrossOrigin
 public class SectionController {
   private final SectionRepository sectionRepository;
   private final CourseRepository courseRepository;
