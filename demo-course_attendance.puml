@@ -57,9 +57,9 @@ class CourseClass {
   +computePeriodTotalByDate(date : LocalDate) : int
 }
 
-Section "1..*" o--> "1..*" Course
+Section "0..*" <-- "0..*" Course : is part of <
 Course "1" <- "0..*" CourseClass : instantiates <
-AcademicYear "1" <-- "1..*" CourseClass
+AcademicYear "1" <-- "0..*" CourseClass
 CourseClass "0..*" -> "1..*\nteachers" Person
 CourseClass "0..*" -> "0..*\nstudents" Person
 CourseClass "1" *--> "0..*" Session
