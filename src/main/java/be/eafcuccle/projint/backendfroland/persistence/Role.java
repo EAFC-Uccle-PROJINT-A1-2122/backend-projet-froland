@@ -13,7 +13,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
-
+import javax.persistence.Version;
 import org.springframework.core.style.ToStringCreator;
 
 @Entity
@@ -29,6 +29,9 @@ public class Role {
   @JoinTable(name = "role_permission", joinColumns = @JoinColumn(name = "role_id"))
   @Column(name = "permission")
   private Set<Permission> permissions = new HashSet<>();
+
+  @Version
+  private long version;
 
   public Role(String name) {
     this.name = name;
@@ -54,6 +57,10 @@ public class Role {
 
   public boolean isAllowed(Permission permission) {
     return permissions.contains(permission);
+  }
+
+  public long getVersion() {
+      return version;
   }
 
   @Override

@@ -12,7 +12,7 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
-
+import javax.persistence.Version;
 import org.springframework.core.style.ToStringCreator;
 
 @Entity
@@ -36,6 +36,9 @@ public class Person {
   @OneToMany
   @JoinColumn(name = "student_id")
   private Set<Attendance> attendances = new HashSet<>();
+
+  @Version
+  private long version;
 
   public Person(String firstName, String lastName) {
     this.firstName = firstName;
@@ -117,6 +120,10 @@ public class Person {
     int totalPeriods = courseClass.computePeriodTotalByDate(byDate);
     int attendedPeriods = computeAttendedPeriodTotalByDate(courseClass, byDate);
     return totalPeriods == 0 ? 0 : attendedPeriods * 1F / totalPeriods;
+  }
+
+  public long getVersion() {
+      return version;
   }
 
   @Override

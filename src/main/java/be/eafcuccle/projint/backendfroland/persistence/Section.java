@@ -1,16 +1,16 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
-import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.Objects;
-
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
-
+import javax.persistence.Version;
 import org.springframework.core.style.ToStringCreator;
 
 @Entity
@@ -27,7 +27,10 @@ public class Section {
     joinColumns = @JoinColumn(name = "section_id", referencedColumnName = "id"),
     inverseJoinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id")
   )
-  private Collection<Course> courses = new ArrayList<>();
+  private Set<Course> courses = new HashSet<>();
+
+  @Version
+  private long version;
 
   public Section(String name) {
     this.name = name;
@@ -56,12 +59,16 @@ public class Section {
     return courses;
   }
 
-  public void setCourses(Collection<Course> courses) {
-      this.courses = courses;
-  }
-
   public void addCourse(Course course) {
     courses.add(course);
+  }
+
+  public void removeCourse(Course course) {
+    courses.remove(course);
+  }
+
+  public long getVersion() {
+      return version;
   }
 
   @Override
@@ -70,16 +77,16 @@ public class Section {
       if (obj == this) return true;
 
       Section other = (Section) obj;
-      return Objects.equals(this.name, other.name);
+      return Objects.equals(this.name, other.name) && this.version == other.version;
   }
 
   @Override
   public int hashCode() {
-      return Objects.hash(name);
+      return Objects.hash(name, version);
   }
 
   @Override
   public String toString() {
-    return new ToStringCreator(this).append(name).toString();
+    return new ToStringCreator(this).append(name).append("v", version).toString();
   }
 }
