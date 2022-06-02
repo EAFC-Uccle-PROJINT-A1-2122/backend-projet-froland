@@ -17,8 +17,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 import org.springframework.web.util.UriComponentsBuilder;
-import be.eafcuccle.projint.backendfroland.persistence.Course;
-import be.eafcuccle.projint.backendfroland.persistence.CourseRepository;
 import be.eafcuccle.projint.backendfroland.persistence.Section;
 import be.eafcuccle.projint.backendfroland.persistence.SectionRepository;
 
@@ -27,11 +25,9 @@ import be.eafcuccle.projint.backendfroland.persistence.SectionRepository;
 @CrossOrigin
 public class SectionController {
   private final SectionRepository sectionRepository;
-  private final CourseRepository courseRepository;
 
-  public SectionController(SectionRepository sectionRepository, CourseRepository courseRepository) {
+  public SectionController(SectionRepository sectionRepository) {
     this.sectionRepository = sectionRepository;
-    this.courseRepository = courseRepository;
   }
 
   @GetMapping("")
@@ -61,14 +57,4 @@ public class SectionController {
       throw new ResponseStatusException(HttpStatus.BAD_REQUEST);
     }
   }
-
-  @PostMapping("/{id}/courses")
-  public ResponseEntity<?> addCourseToSection(@PathVariable Long sectionId,
-      @RequestBody IdentifierTO courseIdentifier) {
-    Section section = sectionRepository.getById(sectionId);
-    Course course = courseRepository.getById(courseIdentifier.getId());
-    section.addCourse(course);
-    return ResponseEntity.noContent().build();
-  }
-
 }

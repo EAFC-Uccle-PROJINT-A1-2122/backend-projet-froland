@@ -1,6 +1,7 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import java.util.Set;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.orm.jpa.DataJpaTest;
@@ -18,7 +19,7 @@ public class CourseRepositoryTest {
     Section section = new Section("Informatique de gestion");
     sectionRepository.save(section);
     Course newCourse = new Course("Informatique de gestion");
-    section.addCourse(newCourse);
+    newCourse.setSections(Set.of(section));
     Long id = courseRepository.saveAndFlush(newCourse).getId();
 
     Course foundCourse = courseRepository.getById(id);

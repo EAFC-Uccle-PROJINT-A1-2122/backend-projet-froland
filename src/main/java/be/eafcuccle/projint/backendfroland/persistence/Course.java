@@ -1,10 +1,14 @@
 package be.eafcuccle.projint.backendfroland.persistence;
 
+import java.util.HashSet;
 import java.util.Objects;
-
+import java.util.Set;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.Version;
 import org.springframework.core.style.ToStringCreator;
 
@@ -15,6 +19,14 @@ public class Course {
   private Long id;
 
   private String name;
+
+  @ManyToMany
+  @JoinTable(
+    name = "section_course",
+    joinColumns = @JoinColumn(name = "course_id", referencedColumnName = "id"),
+    inverseJoinColumns = @JoinColumn(name = "section_id", referencedColumnName = "id")
+  )
+  private Set<Section> sections = new HashSet<>();
 
   @Version
   private long version;
@@ -40,6 +52,14 @@ public class Course {
 
   public void setName(String name) {
     this.name = name;
+  }
+
+  public Set<Section> getSections() {
+      return sections;
+  }
+
+  public void setSections(Set<Section> sections) {
+      this.sections = sections;
   }
 
   public long getVersion() {
