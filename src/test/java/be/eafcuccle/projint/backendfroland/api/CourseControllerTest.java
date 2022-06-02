@@ -10,6 +10,7 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -36,7 +37,7 @@ public class CourseControllerTest {
 
   @Test
   public void allCourses() {
-    when(courseRepository.findAll()).thenReturn(List.of(course1, course2));
+    when(courseRepository.findAll(Sort.by("name"))).thenReturn(List.of(course1, course2));
 
     List<CourseTO> allCourses = courseController.allCourses();
 
