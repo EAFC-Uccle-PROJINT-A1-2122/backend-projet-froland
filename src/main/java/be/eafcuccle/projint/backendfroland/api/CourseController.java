@@ -1,11 +1,14 @@
 package be.eafcuccle.projint.backendfroland.api;
 
 import java.net.URI;
+import java.time.Duration;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -33,16 +36,25 @@ public class CourseController {
   }
 
   @GetMapping
-  public List<CourseTO> allCourses() {
+  public ResponseEntity<List<CourseTO>> allCourses() {
     List<Course> courses = courseRepository.findAll(Sort.by("name"));
-    return courses.stream().map(CourseController::convertEntity).collect(Collectors.toList());
+    List<CourseTO> courseTOs = courses.stream().map(CourseController::convertEntity).collect(Collectors.toList());
+    Object[] versions = courses.stream().map((course) -> course.getVersion()).toArray();
+    int etag = Objects.hash(versions);
+    return ResponseEntity.ok()
+      .cacheControl(CacheControl.noCache())
+      .eTag(Integer.toString(etag))
+      .body(courseTOs);
   }
 
   @GetMapping("/{courseId}")
   public ResponseEntity<CourseTO> courseDetails(@PathVariable(name = "courseId") Long courseId) {
     Course course = courseRepository.getById(courseId);
     CourseTO courseTO = CourseController.convertEntity(course);
-    return ResponseEntity.ok().eTag(Long.toString(course.getVersion())).body(courseTO);
+    return ResponseEntity.ok()
+      .cacheControl(CacheControl.noCache())
+      .eTag(Long.toString(course.getVersion()))
+      .body(courseTO);
   }
 
   @PostMapping
