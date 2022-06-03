@@ -62,7 +62,7 @@ public class CourseController {
   }
 
   Course convertTO(CourseTO courseTO) {
-    Set<Section> sections = courseTO.getSectionIds().stream().map((id) -> sectionRepository.getById(id)).collect(Collectors.toSet());
+    Set<Section> sections = Set.copyOf(sectionRepository.findAllById(courseTO.getSectionIds()));
     Course course = new Course(courseTO.getName());
     course.setSections(sections);
     return course;
