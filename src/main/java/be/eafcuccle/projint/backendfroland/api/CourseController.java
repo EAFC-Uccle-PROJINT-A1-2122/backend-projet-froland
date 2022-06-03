@@ -1,11 +1,13 @@
 package be.eafcuccle.projint.backendfroland.api;
 
 import java.net.URI;
-import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.CacheControl;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.UriComponentsBuilder;
 import be.eafcuccle.projint.backendfroland.persistence.Course;
@@ -37,15 +40,16 @@ public class CourseController {
   }
 
   @GetMapping
-  public ResponseEntity<List<CourseTO>> allCourses() {
-    List<Course> courses = courseRepository.findAll(Sort.by("name"));
-    List<CourseTO> courseTOs = courses.stream().map(CourseController::convertEntity).collect(Collectors.toList());
+  public ResponseEntity<Page<CourseTO>> allCourses(@RequestParam int page, @RequestParam int size) {
+    Pageable sortByName = PageRequest.of(page, size, Sort.by("name"));
+    Page<Course> courses = courseRepository.findAll(sortByName);
     Object[] versions = courses.stream().map((course) -> course.getVersion()).toArray();
     int etag = Objects.hash(versions);
+    Page<CourseTO> courseTOsPage = courses.map(CourseController::convertEntity);
     return ResponseEntity.ok()
       .cacheControl(CacheControl.noCache())
       .eTag(Integer.toString(etag))
-      .body(courseTOs);
+      .body(courseTOsPage);
   }
 
   @GetMapping("/{courseId}")

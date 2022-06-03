@@ -10,7 +10,9 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.Spy;
 import org.mockito.junit.jupiter.MockitoExtension;
-import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageImpl;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.util.UriComponentsBuilder;
@@ -37,13 +39,13 @@ public class CourseControllerTest {
 
   @Test
   public void allCourses() {
-    when(courseRepository.findAll(Sort.by("name"))).thenReturn(List.of(course1, course2));
+    when(courseRepository.findAll(any(Pageable.class))).thenReturn(new PageImpl<Course>(List.of(course1, course2)));
 
-    ResponseEntity<List<CourseTO>> allCourses = courseController.allCourses();
+    ResponseEntity<Page<CourseTO>> allCourses = courseController.allCourses(0, 10);
 
-    assertEquals(2, allCourses.getBody().size());
-    assertEquals(COURSE1_NAME, allCourses.getBody().get(0).getName());
-    assertEquals(COURSE2_NAME, allCourses.getBody().get(1).getName());
+    assertEquals(2, allCourses.getBody().getSize());
+    assertEquals(COURSE1_NAME, allCourses.getBody().toList().get(0).getName());
+    assertEquals(COURSE2_NAME, allCourses.getBody().toList().get(1).getName());
   }
 
   @Test
