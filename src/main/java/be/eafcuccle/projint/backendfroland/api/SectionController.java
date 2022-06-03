@@ -2,10 +2,12 @@ package be.eafcuccle.projint.backendfroland.api;
 
 import java.net.URI;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.data.domain.Sort;
+import org.springframework.http.CacheControl;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
@@ -33,18 +35,26 @@ public class SectionController {
   }
 
   @GetMapping("")
-  public List<SectionTO> allSections() {
+  public ResponseEntity<List<SectionTO>> allSections() {
     List<Section> sections = sectionRepository.findAll(Sort.by("name"));
-    List<SectionTO> sectionsTO =
+    List<SectionTO> sectionTOs =
         sections.stream().map(SectionTO::of).collect(Collectors.toList());
-    return sectionsTO;
+    Object[] versions = sections.stream().map((section) -> section.getVersion()).toArray();
+    int etag = Objects.hash(versions);
+    return ResponseEntity.ok()
+      .cacheControl(CacheControl.noCache())
+      .eTag(Integer.toString(etag))
+      .body(sectionTOs);
   }
 
   @GetMapping("/{id}")
   public ResponseEntity<SectionTO> sectionDetails(@PathVariable Long id) {
     Section section = sectionRepository.getById(id);
     SectionTO sectionTO = SectionTO.of(section);
-    return ResponseEntity.ok().eTag(Long.toString(section.getVersion())).body(sectionTO);
+    return ResponseEntity.ok()
+      .cacheControl(CacheControl.noCache())
+      .eTag(Long.toString(section.getVersion()))
+      .body(sectionTO);
   }
 
   @PostMapping("")

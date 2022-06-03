@@ -36,11 +36,11 @@ public class SectionControllerTest {
   public void allSections() {
     when(sectionRepository.findAll(Sort.by("name"))).thenReturn(List.of(section1, section2));
 
-    List<SectionTO> allSections = sectionController.allSections();
+    ResponseEntity<List<SectionTO>> allSections = sectionController.allSections();
 
-    assertEquals(2, allSections.size());
-    assertEquals(SECTION1_NAME, allSections.get(0).getName());
-    assertEquals(SECTION2_NAME, allSections.get(1).getName());
+    assertEquals(2, allSections.getBody().size());
+    assertEquals(SECTION1_NAME, allSections.getBody().get(0).getName());
+    assertEquals(SECTION2_NAME, allSections.getBody().get(1).getName());
   }
 
   @Test
