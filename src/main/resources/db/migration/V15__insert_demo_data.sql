@@ -1,11 +1,7 @@
 INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Bachelier en informatique de gestion', 1);
 INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Bachelier en informatique et systèmes', 1);
-INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Bachelier en commerce extérieur', 1);
-INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Bachelier en comptabilité', 1);
-INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Bachelier en coopération internationale', 1);
 INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Bachelier en construction', 1);
 INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Bachelier en électromécanique', 1);
-INSERT INTO section (id, name, version) VALUES (nextval('hibernate_sequence'), 'Géomètre-expert immobilier', 1);
 
 INSERT INTO course (id, name, version) VALUES (nextval('hibernate_sequence'), 'Mathématiques appliquées à l''informatique', 1);
 INSERT INTO course (id, name, version) VALUES (nextval('hibernate_sequence'), 'Éléments de statistique', 1);

@@ -39,11 +39,11 @@ public class CourseControllerTest {
   public void allCourses() {
     when(courseRepository.findAll(Sort.by("name"))).thenReturn(List.of(course1, course2));
 
-    List<CourseTO> allCourses = courseController.allCourses();
+    ResponseEntity<List<CourseTO>> allCourses = courseController.allCourses();
 
-    assertEquals(2, allCourses.size());
-    assertEquals(COURSE1_NAME, allCourses.get(0).getName());
-    assertEquals(COURSE2_NAME, allCourses.get(1).getName());
+    assertEquals(2, allCourses.getBody().size());
+    assertEquals(COURSE1_NAME, allCourses.getBody().get(0).getName());
+    assertEquals(COURSE2_NAME, allCourses.getBody().get(1).getName());
   }
 
   @Test
