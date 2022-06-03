@@ -7,6 +7,7 @@ import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -23,6 +24,7 @@ import be.eafcuccle.projint.backendfroland.persistence.SectionRepository;
 @RestController
 @RequestMapping("/api/v1/courses")
 @CrossOrigin
+@PreAuthorize("hasAuthority('SCOPE_admin:courses')")
 public class CourseController {
   private final CourseRepository courseRepository;
   private final SectionRepository sectionRepository;

@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 import javax.validation.Valid;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,6 +20,7 @@ import be.eafcuccle.projint.backendfroland.persistence.PersonRepository;
 @RestController
 @RequestMapping("/api/v1/people")
 @CrossOrigin
+@PreAuthorize("hasAuthority('SCOPE_admin:people')")
 public class PersonController {
   private final PersonRepository personRepository;
 
