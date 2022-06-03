@@ -1,4 +1,4 @@
-package be.eafcuccle.projint.backendfroland.api;
+package be.eafcuccle.projint.backendfroland;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
@@ -37,9 +37,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
   @Override
   public void configure(HttpSecurity http) throws Exception {
-    http.authorizeRequests()
-                .mvcMatchers("/api/**").authenticated()
-                .and().cors()
-                .and().oauth2ResourceServer().jwt();
+    http.authorizeRequests().anyRequest().authenticated()
+        .and().cors()
+        .and().oauth2ResourceServer().jwt();
   }
 }
