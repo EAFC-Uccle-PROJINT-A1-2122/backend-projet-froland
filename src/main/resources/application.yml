@@ -6,3 +6,6 @@ spring:
         resourceserver:
             jwt:
                 issuer-uri: https://projint-froland-dev.eu.auth0.com/
+  devtools:
+    livereload:
+      enabled: false
