@@ -15,16 +15,16 @@ public class AcademicYear {
   @GeneratedValue
   private Long id;
 
-  private LocalDate beginning;
+  private LocalDate beginningDate;
 
-  private LocalDate end;
+  private LocalDate endDate;
 
   @Version
   private long version;
 
   public AcademicYear(LocalDate beginning, LocalDate end) {
-    this.beginning = beginning;
-    this.end = end;
+    this.beginningDate = beginning;
+    this.endDate = end;
   }
 
   public Long getId() {
@@ -35,11 +35,11 @@ public class AcademicYear {
   }
 
   public LocalDate getBeginning() {
-    return beginning;
+    return beginningDate;
   }
 
   public LocalDate getEnd() {
-    return end;
+    return endDate;
   }
 
   public long getVersion() {
@@ -47,7 +47,7 @@ public class AcademicYear {
   }
 
   public boolean contains(LocalDate date) {
-    return date.isEqual(beginning) || (date.isAfter(beginning) && date.isBefore(end)) || date.isEqual(end);
+    return date.isEqual(beginningDate) || (date.isAfter(beginningDate) && date.isBefore(endDate)) || date.isEqual(endDate);
   }
 
   @Override
@@ -58,17 +58,17 @@ public class AcademicYear {
       return true;
 
     AcademicYear other = (AcademicYear) obj;
-    return Objects.equals(this.beginning, other.beginning) && Objects.equals(this.end, other.end);
+    return Objects.equals(this.beginningDate, other.beginningDate) && Objects.equals(this.endDate, other.endDate);
   }
 
   @Override
   public int hashCode() {
-    return Objects.hash(beginning, end);
+    return Objects.hash(beginningDate, endDate);
   }
 
   @Override
   public String toString() {
-    String yearString = String.format("%d-%d", beginning.getYear(), end.getYear());
+    String yearString = String.format("%d-%d", beginningDate.getYear(), endDate.getYear());
     return new ToStringCreator(this).append(yearString).toString();
   }
 }
