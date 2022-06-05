@@ -26,10 +26,10 @@ services:
       POSTGRES_USER: postgres
       POSTGRES_DB: postgres
       POSTGRES_HOSTNAME: postgresdb
-      LOGGING_LEVEL_WEB: DEBUG,
-      SPRING_DATASOURCE_URL: jdbc:postgresql://${POSTGRES_HOSTNAME}:5432/${POSTGRES_DB},
-      SPRING_DATASOURCE_USERNAME: ${POSTGRES_USER},
-      SPRING_DATASOURCE_PASSWORD: ${POSTGRES_PASSWORD}
+      LOGGING_LEVEL_WEB: DEBUG
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgresdb:5432/postgres
+      SPRING_DATASOURCE_USERNAME: postgres
+      SPRING_DATASOURCE_PASSWORD: postgres
 
     volumes:
       - ..:/workspace:cached
